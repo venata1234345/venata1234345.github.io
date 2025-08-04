@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TWA Messaging Demo</title>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <title>Web to Android</title>
 </head>
 <body>
-    <h1>TWA Messaging Demo</h1>
-    <input type="text" id="messageInput" placeholder="Enter message">
-    <button onclick="sendMessage()">Send to App</button>
-    <p>Sent to App: <span id="sentMessage"></span></p>
-    <p>Received from App: <span id="receivedMessage"></span></p>
+  <h2>Send Message to Android App</h2>
+  <input type="text" id="messageInput" placeholder="Type your message">
+  <button id="sendBtn">Send to Android</button>
 
-    <script>
-        window.addEventListener('message', (event) => {
-            if (event.origin !== 'https://34345.github.io') return;
-            const sentSpan = document.getElementById('sentMessage');
-            const receivedSpan = document.getElementById('receivedMessage');
-            sentSpan.textContent = event.data;
-            receivedSpan.textContent = "Echo: " + event.data;
-            console.log('Message from app received:', event.data);
-        });
-
-        function sendMessage() {
-            const message = document.getElementById('messageInput').value;
-            if (message) {
-                console.log('Sending message to app:', message);
-                window.postMessage(message, 'https://34345.github.io');
-                document.getElementById('sentMessage').textContent = message;
-                document.getElementById('messageInput').value = '';
-            } else {
-                console.log('No message to send');
-            }
+  <script>
+    // Ensure service worker is registered and active
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then(() => {
+        if (!navigator.serviceWorker.controller) {
+          location.reload(); // Reload to activate controller
         }
-    </script>
+      });
+    }
+
+    // Web → Android via MessageChannel
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const message = document.getElementById('messageInput').value;
+      if (!navigator.serviceWorker.controller) {
+        alert('Service Worker not ready yet.');
+        return;
+      }
+
+      const channel = new MessageChannel();
+      channel.port1.onmessage = (e) => {
+        console.log('Reply from Android or SW:', e.data);
+        alert('Reply: ' + e.data);
+      };
+
+      navigator.serviceWorker.controller.postMessage(message, [channel.port2]);
+    });
+  </script>
 </body>
 </html>
