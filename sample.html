@@ -16,17 +16,20 @@
             if (event.origin !== 'https://34345.github.io') return;
             const sentSpan = document.getElementById('sentMessage');
             const receivedSpan = document.getElementById('receivedMessage');
-            sentSpan.textContent = event.data; // Show what was sent back
-            receivedSpan.textContent = "Echo: " + event.data; // Show received echo
-            console.log('Message from app:', event.data);
+            sentSpan.textContent = event.data;
+            receivedSpan.textContent = "Echo: " + event.data;
+            console.log('Message from app received:', event.data);
         });
 
         function sendMessage() {
             const message = document.getElementById('messageInput').value;
             if (message) {
+                console.log('Sending message to app:', message);
                 window.postMessage(message, 'https://34345.github.io');
-                document.getElementById('sentMessage').textContent = message; // Show sent message
-                document.getElementById('messageInput').value = ''; // Clear input
+                document.getElementById('sentMessage').textContent = message;
+                document.getElementById('messageInput').value = '';
+            } else {
+                console.log('No message to send');
             }
         }
     </script>
