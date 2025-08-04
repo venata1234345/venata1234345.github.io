@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TWA Communication Example</title>
+    <title>TWA Messaging Example</title>
+    <meta charset="UTF-8">
 </head>
 <body>
-    <h1>TWA Message Sender</h1>
-    <p>Click the button to send a message to the Android app.</p>
-    <button id="sendMessageBtn">Send Message to Android</button>
-    <div id="status"></div>
+    <h1>TWA Messaging Demo</h1>
+    <input type="text" id="messageInput" placeholder="Enter message">
+    <button onclick="sendMessage()">Send to App</button>
+    <p>Received from App: <span id="receivedMessage"></span></p>
 
     <script>
-        document.getElementById('sendMessageBtn').addEventListener('click', function() {
-            // Check if the Web Message Channel is available through a Service Worker
-            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                // Send a message to the Android app
-                window.postMessage('Hello from the web page!', '*');
-            } else {
-                document.getElementById('status').innerText = 'Web Message Channel not available.';
-            }
+        window.addEventListener('message', (event) => {
+            if (event.origin !== 'https://venata1234345.github.io') return;
+            document.getElementById('receivedMessage').textContent = event.data;
+            console.log('Message from app:', event.data);
         });
 
-        // Listen for messages from the Android app
-        window.addEventListener('message', function(event) {
-            // The event.data contains the message from the Android app
-            if (event.data === 'Hello from Android!') {
-                document.getElementById('status').innerText = 'Received message from Android: ' + event.data;
+        function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (message) {
+                window.postMessage(message, 'https://venata1234345.github.io');
+                console.log('Message sent to app:', message);
             }
-        });
+        }
     </script>
 </body>
 </html>
