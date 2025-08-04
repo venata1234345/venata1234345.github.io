@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TWA Messaging Demo</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>TWA Messaging Demo</h1>
+    <input type="text" id="messageInput" placeholder="Enter message">
+    <button onclick="sendMessage()">Send to App</button>
+    <p>Sent to App: <span id="sentMessage"></span></p>
+    <p>Received from App: <span id="receivedMessage"></span></p>
+
+    <script>
+        window.addEventListener('message', (event) => {
+            if (event.origin !== 'https://34345.github.io') return;
+            const sentSpan = document.getElementById('sentMessage');
+            const receivedSpan = document.getElementById('receivedMessage');
+            sentSpan.textContent = event.data;
+            receivedSpan.textContent = "Echo: " + event.data;
+            console.log('Message from app received:', event.data);
+        });
+
+        function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (message) {
+                console.log('Sending message to app:', message);
+                window.postMessage(message, 'https://34345.github.io');
+                document.getElementById('sentMessage').textContent = message;
+                document.getElementById('messageInput').value = '';
+            } else {
+                console.log('No message to send');
+            }
+        }
+    </script>
+</body>
+</html>
