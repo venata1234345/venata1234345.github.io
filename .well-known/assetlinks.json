@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.playmgm.nj.sports",
+      "sha256_cert_fingerprints": [
+        "A4:C1:59:AA:49:97:AB:7A:00:61:5C:C9:D0:4E:E8:E2:E2:A9:97:98:B7:6E:8C:C6:D0:AB:4B:C8:A7:69:5B:BD"
+      ]
+    }
+  }
+]
