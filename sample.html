@@ -9,11 +9,15 @@
     <input type="text" id="messageInput" placeholder="Enter message">
     <button onclick="sendMessage()">Send to App</button>
     <p>Received from App: <span id="receivedMessage"></span></p>
+    <p>Web Update: <span id="webUpdate"></span></p>
 
     <script>
         window.addEventListener('message', (event) => {
             if (event.origin !== 'https://venata1234345.github.io') return;
-            document.getElementById('receivedMessage').textContent = event.data;
+            const receivedSpan = document.getElementById('receivedMessage');
+            const webUpdateSpan = document.getElementById('webUpdate');
+            receivedSpan.textContent = event.data; // Update from app message
+            webUpdateSpan.textContent = "Updated by app: " + event.data; // Additional web update
             console.log('Message from app:', event.data);
         });
 
