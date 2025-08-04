@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TWA Messaging Example</title>
+    <title>TWA Messaging Demo</title>
     <meta charset="UTF-8">
 </head>
 <body>
     <h1>TWA Messaging Demo</h1>
     <input type="text" id="messageInput" placeholder="Enter message">
     <button onclick="sendMessage()">Send to App</button>
+    <p>Sent to App: <span id="sentMessage"></span></p>
     <p>Received from App: <span id="receivedMessage"></span></p>
-    <p>Web Update: <span id="webUpdate"></span></p>
 
     <script>
         window.addEventListener('message', (event) => {
-            if (event.origin !== 'https://venata1234345.github.io') return;
+            if (event.origin !== 'https://34345.github.io') return;
+            const sentSpan = document.getElementById('sentMessage');
             const receivedSpan = document.getElementById('receivedMessage');
-            const webUpdateSpan = document.getElementById('webUpdate');
-            receivedSpan.textContent = event.data; // Update from app message
-            webUpdateSpan.textContent = "Updated by app: " + event.data; // Additional web update
+            sentSpan.textContent = event.data; // Show what was sent back
+            receivedSpan.textContent = "Echo: " + event.data; // Show received echo
             console.log('Message from app:', event.data);
         });
 
         function sendMessage() {
             const message = document.getElementById('messageInput').value;
             if (message) {
-                window.postMessage(message, 'https://venata1234345.github.io');
-                console.log('Message sent to app:', message);
+                window.postMessage(message, 'https://34345.github.io');
+                document.getElementById('sentMessage').textContent = message; // Show sent message
                 document.getElementById('messageInput').value = ''; // Clear input
             }
         }
