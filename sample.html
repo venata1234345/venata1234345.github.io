@@ -1,9 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>This is the title of the webpage!</title>
-  </head>
-  <body>
-    <p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
-  </body>
+<head>
+    <title>TWA Communication Example</title>
+</head>
+<body>
+    <h1>TWA Message Sender</h1>
+    <p>Click the button to send a message to the Android app.</p>
+    <button id="sendMessageBtn">Send Message to Android</button>
+    <div id="status"></div>
+
+    <script>
+        document.getElementById('sendMessageBtn').addEventListener('click', function() {
+            // Check if the Web Message Channel is available through a Service Worker
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                // Send a message to the Android app
+                window.postMessage('Hello from the web page!', '*');
+            } else {
+                document.getElementById('status').innerText = 'Web Message Channel not available.';
+            }
+        });
+
+        // Listen for messages from the Android app
+        window.addEventListener('message', function(event) {
+            // The event.data contains the message from the Android app
+            if (event.data === 'Hello from Android!') {
+                document.getElementById('status').innerText = 'Received message from Android: ' + event.data;
+            }
+        });
+    </script>
+</body>
 </html>
