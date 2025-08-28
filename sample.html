@@ -1,40 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Web to Android</title>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<title>Cashier</title>
+<link rel="manifest" href="manifest.json" />
+<script>
+
+var port = undefined;
+
+(function() {
+
+window.addEventListener("message", function (event) {
+
+  // We are receiveing messages from any origin, you can check of the origin by
+
+  // using event.origin
+ 
+  // get the port then use it for communication.
+
+  port = event.ports[0];
+
+  if (typeof port === 'undefined') return;
+ 
+  // Post message on this port.
+
+  port.postMessage(JSON.stringify({"eventName": "ON_PAGE_LOAD","parameters": {"URL": "https://promo.nj.betmgm.com/en/promo/geolocator/sports?_nativeApp=sportsw&lang=en"}}));
+
+	document.getElementById("portValue").value=port;
+
+  // Receive upcoming messages on this port.
+
+  port.onmessage = function(event) {
+
+    console.log("[PostMessage1] Got message" + event.data);
+
+  };
+
+});
+
+})();
+
+function myFunction2(){
+
+window.parent.postMessage(JSON.stringify({"eventName": "ON_PAGE_LOAD2","parameters": {"URL": "https://promo.nj.betmgm.com/en/promo/geolocator/sports?_nativeApp=sportsw&lang=en"}}));
+
+}
+
+function myFunction3(){
+
+window.postMessage(JSON.stringify({"eventName": "ON_PAGE_LOAD3","parameters": {"URL": "https://promo.nj.betmgm.com/en/promo/geolocator/sports?_nativeApp=sportsw&lang=en"}}));
+
+}
+ 
+function myFunction1(){
+
+  port.postMessage(JSON.stringify({"eventName": "ON_PAGE_LOAD1","parameters": {"URL": "https://promo.nj.betmgm.com/en/promo/geolocator/sports?_nativeApp=sportsw&lang=en"}}));
+
+port.onmessage = function(event) {
+
+    console.log("[PostMessage1] Got message1" + event.data);
+
+  };
+
+}
+</script>
 </head>
 <body>
-  <h2>Send Message to Android App</h2>
-  <input type="text" id="messageInput" placeholder="Type your message">
-  <button id="sendBtn">Send to Android</button>
-
-  <script>
-    // Ensure service worker is registered and active
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(() => {
-        if (!navigator.serviceWorker.controller) {
-          location.reload(); // Reload to activate controller
-        }
-      });
-    }
-
-    // Web → Android via MessageChannel
-    document.getElementById('sendBtn').addEventListener('click', () => {
-      const message = document.getElementById('messageInput').value;
-      if (!navigator.serviceWorker.controller) {
-        alert('Service Worker not ready yet.');
-        return;
-      }
-
-      const channel = new MessageChannel();
-      channel.port1.onmessage = (e) => {
-        console.log('Reply from Android or SW:', e.data);
-        alert('Reply: ' + e.data);
-      };
-
-      navigator.serviceWorker.controller.postMessage(message, [channel.port2]);
-    });
-  </script>
-</body>
+<button onclick="myFunction1()">Click me 1</button>
+<button onclick="myFunction2()">Click me 2</button>
+<button onclick="myFunction3()">Click me 3</button>
+<input type="hidden" id="portValue" name="portValue" value="34657" />
+</body> 
 </html>
+BetMGM
+ 
