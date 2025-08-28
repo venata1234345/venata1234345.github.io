@@ -5,7 +5,8 @@
             "namespace": "android_app",
             "package_name": "com.ivy.twapoc",
             "sha256_cert_fingerprints": [
-                "24:15:6d:2e:3c:bf:32:2f:3c:f8:51:0d:e9:2a:50:f3:fe:86:94:13:2a:c6:86:2d:32:62:59:99:f4:48:c8:cb"
+                "24:15:6d:2e:3c:bf:32:2f:3c:f8:51:0d:e9:2a:50:f3:fe:86:94:13:2a:c6:86:2d:32:62:59:99:f4:48:c8:cb","24:15:6D:2E:3C:BF:32:2F:3C:F8:51:0D:E9:2A:50:F3:FE:86:94:13:2A:C6:86:2D:32:62:59:99:F4:48:C8:CB"
+
             ]
         }
     }
